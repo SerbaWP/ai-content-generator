@@ -6,14 +6,12 @@ if (!current_user_can('manage_options')) {
 <div class="wrap">
   <h1>Templates</h1>
   <?php
-  // Delete template logic
   if (!empty($_GET['delete'])) {
     check_admin_referer('delete_template');
     (new AI_Content_Template_Manager())->delete_template(sanitize_text_field($_GET['delete']));
     echo '<div class="notice notice-success"><p>Template deleted.</p></div>';
   }
 
-  // Save template logic
   if (!empty($_POST['submit_template'])) {
     check_admin_referer('save_template', 'nonce');
     
@@ -34,7 +32,6 @@ if (!current_user_can('manage_options')) {
     }
   }
   
-  // Edit template logic
   $template = [];
   if (!empty($_GET['edit'])) {
     $template = (new AI_Content_Template_Manager())->get_templates()[sanitize_text_field($_GET['edit'])] ?? [];
