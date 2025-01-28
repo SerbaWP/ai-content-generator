@@ -40,9 +40,7 @@ if (!current_user_can('manage_options')) {
     $template = (new AI_Content_Template_Manager())->get_templates()[sanitize_text_field($_GET['edit'])] ?? [];
   }
   ?>
-  
-  <!-- ========== FORM STARTS HERE ========== -->
-  <form method="post">
+    <form method="post">
     <?php wp_nonce_field('save_template', 'nonce'); ?>
     <div class="form-field">
       <label>Template Name:</label>
@@ -85,7 +83,6 @@ if (!current_user_can('manage_options')) {
       <?php echo empty($_GET['edit']) ? 'Create Template' : 'Update Template'; ?>
     </button>
   </form>
-  <!-- ========== FORM ENDS HERE ========== -->
 
   <h2>Existing Templates</h2>
   <table class="wp-list-table widefat fixed striped">
