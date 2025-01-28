@@ -6,14 +6,12 @@ if (!current_user_can('manage_options')) {
 <div class="wrap">
   <h1>Keyword Templates</h1>
   <?php
-  // Handle deletions
   if (!empty($_GET['delete'])) {
     check_admin_referer('delete_keyword_template');
     (new AI_Content_Keyword_Manager())->delete_keyword_template(sanitize_text_field($_GET['delete']));
     echo '<div class="notice notice-success"><p>Template deleted.</p></div>';
   }
 
-  // Handle saves
   if (!empty($_POST['submit_keywords'])) {
     check_admin_referer('save_keyword_template', 'nonce');
     
