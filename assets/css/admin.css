@@ -1,0 +1,24 @@
+.form-field {
+    margin-bottom: 1rem;
+  }
+  .form-field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  .form-field input[type="text"],
+  .form-field textarea,
+  .form-field select {
+    width: 100%;
+    max-width: 600px;
+  }
+  .wp-list-table th, .wp-list-table td {
+    padding: 15px;
+  }
+
+#keyword_template select,
+#manual_keywords textarea {
+  width: 100%;
+  max-width: 600px;
+  height: 120px;
+}
