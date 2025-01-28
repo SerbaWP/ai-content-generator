@@ -1,3 +1,8 @@
+<?php
+if (!current_user_can('manage_options')) {
+    wp_die('You do not have sufficient permissions to access this page.');
+}
+?>
 <div class="wrap">
   <h1>Generate Content</h1>
   <?php
@@ -85,28 +90,36 @@
       </select>
     </div>
 
-    <div class="form-field">
-      <label>Post Type:</label>
-      <select name="post_type">
-        <?php foreach (get_post_types(['public' => true], 'objects') as $post_type): 
-          if ($post_type->name === 'attachment') continue;
-        ?>
-          <option value="<?php echo esc_attr($post_type->name); ?>">
-            <?php echo esc_html($post_type->labels->singular_name); ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
-    </div>
+    <?php if (get_option('ai_schedule_mode', 'manual') === 'manual'): ?>
+      <div class="form-field">
+        <label>Post Type:</label>
+        <select name="post_type">
+          <?php foreach (get_post_types(['public' => true], 'objects') as $post_type): 
+            if ($post_type->name === 'attachment') continue;
+          ?>
+            <option value="<?php echo esc_attr($post_type->name); ?>">
+              <?php echo esc_html($post_type->labels->singular_name); ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
 
-    <div class="form-field">
-      <label>Post Status:</label>
-      <select name="post_status">
-        <option value="draft">Draft</option>
-        <option value="publish">Publish</option>
-      </select>
-    </div>
+      <div class="form-field">
+        <label>Post Status:</label>
+        <select name="post_status">
+          <option value="draft">Draft</option>
+          <option value="publish">Publish</option>
+        </select>
+      </div>
+    <?php else: ?>
+      <div class="notice notice-info">
+        <p>Automatic mode is active. Content will be generated according to the schedule set in API Settings.</p>
+      </div>
+    <?php endif; ?>
 
-    <button type="submit" name="generate" class="button button-primary">Generate</button>
+    <button type="submit" name="generate" class="button button-primary">
+      <?php echo (get_option('ai_schedule_mode', 'manual') === 'manual') ? 'Generate Now' : 'Test Generation'; ?>
+    </button>
   </form>
 
   <script>
@@ -116,7 +129,16 @@
       (source === 'manual') ? 'block' : 'none';
     document.getElementById('keyword_template').style.display = 
       (source === 'template') ? 'block' : 'none';
+    
+    // Toggle required attribute
+    document.querySelector('#manual_keywords textarea').required = (source === 'manual');
+    document.querySelector('#keyword_template select').required = (source === 'template');
   }
+  
+  // Initial state
+  document.addEventListener('DOMContentLoaded', function() {
+    toggleKeywordInput();
+  });
   </script>
 
 </div>
