@@ -2,7 +2,7 @@
 /*
 Plugin Name: AI Content Generator
 Description: Generate SEO content using AI (DeepSeek). Includes templates, scheduling, and keyword management.
-Version: 1.2.1
+Version: 1.3.1
 Author: SerbaWP
 */
 
