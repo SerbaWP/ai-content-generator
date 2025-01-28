@@ -1,6 +1,15 @@
 <?php
 class AI_Content_Scheduler {
-  // ... (activation/deactivation methods remain the same)
+    public static function activate() {
+    $interval = get_option('ai_schedule_interval', 'hourly');
+    if (!wp_next_scheduled('ai_content_auto_generate')) {
+      wp_schedule_event(time(), $interval, 'ai_content_auto_generate');
+    }
+  }
+
+  public static function deactivate() {
+    wp_clear_scheduled_hook('ai_content_auto_generate');
+  }
 
   public static function generate_scheduled_content() {
     $templates = (new AI_Content_Template_Manager())->get_templates();
